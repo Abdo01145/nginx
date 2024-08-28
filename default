@@ -67,4 +67,4 @@ server {
 #        this is my file2
 #       location / {
 #               try_files $uri $uri/ =404;
-#  test file
+#  test file222222222222
