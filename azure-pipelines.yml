@@ -13,13 +13,12 @@ stages:
       name: default # Change this to your agent pool name
     environment:
       name: 'Hetzner' # Replace with your Azure DevOps environment name
-      resourceType: VirtualMachine
     strategy:
       runOnce:
         deploy:
           steps:
           - script: |
               echo "Deploying to Nginx server..."
-              scp -r ./your_build_files/ root@65.108.152.20:/etc/nginx/site-enabled/
-              ssh root@65.108.152.20 'sudo systemctl restart nginx'
+              cat default
+#              ssh root@65.108.152.20 'sudo systemctl restart nginx'
             displayName: 'Copy Files to Server and Restart Nginx'
