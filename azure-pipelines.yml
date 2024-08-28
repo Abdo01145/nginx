@@ -1,0 +1,39 @@
+trigger:
+- main  # Trigger pipeline on changes to the 'main' branch
+
+pool:
+  name: 'default'
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.x'
+        addToPath: true
+
+    - script: |
+        echo "Running tests..."
+        # Include commands to run your tests or build scripts
+      displayName: 'Run tests'
+
+- stage: Deploy
+  jobs:
+  - deployment: DeployToVM
+    displayName: 'Deploy to VM'
+    pool:
+      name: default # Change this to your agent pool name
+    environment:
+      name: 'Hetzner' # Replace with your Azure DevOps environment name
+      resourceType: VirtualMachine
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: |
+              echo "Deploying to Nginx server..."
+              scp -r ./your_build_files/ root@65.108.152.20:/etc/nginx/site-enabled/
+              ssh root@65.108.152.20 'sudo systemctl restart nginx'
+            displayName: 'Copy Files to Server and Restart Nginx'
