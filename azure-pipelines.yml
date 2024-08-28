@@ -19,7 +19,7 @@ stages:
           steps:
           - script: |
               echo "Deploying to Nginx server..."
-              mv default /etc/nginx/sites-enabled/default
+              sudo mv default /etc/nginx/sites-enabled/default
               sudo systemctl reload nginx
 #              ssh root@65.108.152.20 'sudo systemctl restart nginx'
             displayName: 'Copy Files to Server and Restart Nginx'
