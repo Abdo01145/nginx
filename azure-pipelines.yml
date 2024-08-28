@@ -20,6 +20,6 @@ stages:
           - script: |
               echo "Deploying to Nginx server..."
               mv default /tmp/default
-              systemctl reload nginx
+              sudo systemctl reload nginx
 #              ssh root@65.108.152.20 'sudo systemctl restart nginx'
             displayName: 'Copy Files to Server and Restart Nginx'
