@@ -5,20 +5,6 @@ pool:
   name: 'default'
 
 stages:
-- stage: Build
-  jobs:
-  - job: Build
-    steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.x'
-        addToPath: true
-
-    - script: |
-        echo "Running tests..."
-        # Include commands to run your tests or build scripts
-      displayName: 'Run tests'
-
 - stage: Deploy
   jobs:
   - deployment: DeployToVM
