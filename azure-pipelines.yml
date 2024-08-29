@@ -28,7 +28,7 @@ stages:
     steps:
     - script: |
         echo "Moving Nginx default configuration..."
-        sudo mv /home/amanar/myagent/nginx/default /etc/nginx/sites-enabled/default
+        sudo cp /home/amanar/myagent/nginx/default /etc/nginx/sites-enabled/default
       displayName: 'Move Default Configuration to Nginx Path'
 
 - stage: TestAndReloadNginx
