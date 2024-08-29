@@ -15,8 +15,7 @@ stages:
     steps:
     - script: |
         echo "Pulling latest changes from repository..."
-        cd /home/amanar/myagent/nginx/
-        git pull origin master
+        cd /home/amanar/myagent/nginx/ && git pull origin master
       displayName: 'Pull Changes from Repo'
 
 - stage: MoveConfig
