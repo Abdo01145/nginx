@@ -5,24 +5,47 @@ pool:
   name: 'default'
 
 stages:
-- stage: Deploy
+- stage: PullChanges
+  displayName: 'Pull Latest Changes from Repo'
   jobs:
-  - deployment: DeployToVM
-    displayName: 'Deploy to VM'
+  - job: PullRepo
+    displayName: 'Pull Repository'
     pool:
-      name: default # Change this to your agent pool name
-    environment:
-      name: 'Hetzner' # Replace with your Azure DevOps environment name
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - script: |
-              echo "Deploying to Nginx server..."
-              cd  /home/amanar/myagent/nginx/
-              git pull origin master
-              sudo mv /home/amanar/myagent/nginx/default /etc/nginx/sites-enabled/default
-              nginx -t
-              sudo systemctl reload nginx
-#              ssh root@65.108.152.20 'sudo systemctl restart nginx'
-            displayName: 'Copy Files to Server and Restart Nginx'
+      name: default
+    steps:
+    - script: |
+        echo "Pulling latest changes from repository..."
+        cd /home/amanar/myagent/nginx/
+        git pull origin master
+      displayName: 'Pull Changes from Repo'
+
+- stage: MoveConfig
+  displayName: 'Move Configuration to Nginx Path'
+  jobs:
+  - job: MoveNginxConfig
+    displayName: 'Move Nginx Configuration'
+    pool:
+      name: default
+    steps:
+    - script: |
+        echo "Moving Nginx default configuration..."
+        sudo mv /home/amanar/myagent/nginx/default /etc/nginx/sites-enabled/default
+      displayName: 'Move Default Configuration to Nginx Path'
+
+- stage: TestAndReloadNginx
+  displayName: 'Test and Reload Nginx'
+  jobs:
+  - job: TestReloadNginx
+    displayName: 'Test and Reload Nginx Service'
+    pool:
+      name: default
+    steps:
+    - script: |
+        echo "Testing Nginx configuration..."
+        nginx -t
+      displayName: 'Test Nginx Configuration'
+    - script: |
+        echo "Reloading Nginx service..."
+        sudo systemctl reload nginx
+      displayName: 'Reload Nginx Service'
+
