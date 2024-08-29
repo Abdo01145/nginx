@@ -41,7 +41,7 @@ stages:
     steps:
     - script: |
         echo "Testing Nginx configuration2..."
-        nginx -t
+        sudo nginx -t
       displayName: 'Test Nginx Configuration'
     - script: |
         echo "Reloading Nginx service..."
