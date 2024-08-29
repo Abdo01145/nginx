@@ -40,7 +40,7 @@ stages:
       name: default
     steps:
     - script: |
-        echo "Testing Nginx configuration..."
+        echo "Testing Nginx configuration2..."
         nginx -t
       displayName: 'Test Nginx Configuration'
     - script: |
