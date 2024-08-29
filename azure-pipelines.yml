@@ -19,7 +19,10 @@ stages:
           steps:
           - script: |
               echo "Deploying to Nginx server..."
-              sudo mv ./default /etc/nginx/sites-enabled/default
+              cd  /home/amanar/myagent/nginx/
+              git pull origin master
+              sudo mv /home/amanar/myagent/nginx/default /etc/nginx/sites-enabled/default
+              nginx -t
               sudo systemctl reload nginx
 #              ssh root@65.108.152.20 'sudo systemctl restart nginx'
             displayName: 'Copy Files to Server and Restart Nginx'
